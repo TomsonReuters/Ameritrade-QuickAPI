@@ -1,0 +1,15 @@
+#MODULO GET TOP 10 MOVERS UP OR DOWN. INTERCAMBIABLE POR VALOR O PORCENTAJE
+
+def get_up_movers():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY,
+           'direction' : 'up',
+           'change' : 'percent'}
+    
+    upmovers = requests.get("https://api.tdameritrade.com/v1/marketdata/$SPX.X/movers",
+                          headers=headers, params=data).json()
+    upmovers = pd.json_normalize(upmovers)
+    upmovers = upmovers.drop('description', axis=1)
+    return (upmovers)
+    print(upmovers)
