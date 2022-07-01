@@ -1,0 +1,23 @@
+#MODULO GET PRICE HISTORY
+
+def get_price_history():
+    paper=input("Ingresar paper:")
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY,
+           'periodType' : "day", #day,month,year,ytd
+           'period' : "10", # en diario hasta 10, mensual 6, anual 20, ytd 1
+           'frequency' : "1", #minute: 1,5,10,15,30, #daily 1, weekly 1 , monthly 1
+           'frequencyType' : "minute"} #day:minute/month:daily,weekly/year:daily,weekly,monthly
+                                        #ytd: daily, weekly
+                                        
+                        #PARAMS OPCIONALES endDate, startDate, needExtendedHoursData
+    pricehistory = requests.get("https://api.tdameritrade.com/v1/marketdata/"+paper+"/pricehistory",
+                          headers=headers, params=data).json()['candles']
+    
+    pricehistory= pd.json_normalize(pricehistory)
+    pricehistory['daytime'] = pd.to_datetime(pricehistory['datetime'], unit = "ms", origin = "unix")
+    pricehistory = pricehistory.set_index(pricehistory['daytime'])
+    pricehistory = pricehistory.drop(['datetime','daytime'],axis = 1) 
+    
+      return(pricehistory)
