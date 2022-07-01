@@ -1,0 +1,10 @@
+#MODULO DE MARKET HOURS
+def market_hours():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY}
+    
+    markethours = requests.get("https://api.tdameritrade.com/v1/marketdata/EQUITY/hours",
+                          headers=headers, params=data).json()
+    return (markethours)
+    print(markethours)
