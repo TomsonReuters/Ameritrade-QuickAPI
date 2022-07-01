@@ -1,0 +1,25 @@
+from openpyxl import Workbook
+import requests
+import threading
+import pandas as pd
+import time
+    
+from TD_credentials import refresh_token, APIKEY, URI, ACCOUNT_NUMBER
+
+#MODULO DE CUENTAS
+
+def get_accbalance():
+    headers = { 'Authorization' : 'Bearer '+access_token}
+    data= {'fields' : 'positions,orders'}
+    accbalance = requests.get("https://api.tdameritrade.com/v1/accounts/"+ACCOUNT_NUMBER,
+                          headers=headers, params=data).json()
+    return (accbalance)
+    print(accbalance)
+    
+def get_allaccbalance():
+    headers = { 'Authorization' : 'Bearer '+access_token}
+    data= {'fields' : 'positions,orders'}
+    allbalance = requests.get("https://api.tdameritrade.com/v1/accounts/",
+                          headers=headers, params=data).json()
+    return (allbalance)
+    print(allbalance)
