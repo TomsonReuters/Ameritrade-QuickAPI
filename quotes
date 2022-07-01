@@ -1,0 +1,37 @@
+#MODULO GET QUOTES
+
+def get_quote():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY}
+    paper=input("Ingrese paper:")
+                                        
+                        
+    quote = requests.get("https://api.tdameritrade.com/v1/marketdata/"+paper+"/quotes",
+                          headers=headers, params=data).json()
+    
+    #symbol,bidPrice,askPrice,lastPrice,openPrice,highPrice,loowPrice,closePrice,totalVolume
+    #quoteTimeInLong, volatility
+    quote = quote[paper]
+    quote = pd.json_normalize(quote)
+    quote = quote[['symbol','askPrice','lastPrice','openPrice','lowPrice','volatility','totalVolume']]
+    return (quote)
+    print(quote)
+    
+    
+def get_quotes():
+    paper=input("Ingrese papers:")
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY,
+           'symbol' : paper}
+    
+    quotes = requests.get("https://api.tdameritrade.com/v1/marketdata/quotes",
+                          headers=headers, params=data).json()
+    #symbol,bidPrice,askPrice,lastPrice,openPrice,highPrice,loowPrice,closePrice,totalVolume
+    #quoteTimeInLong, volatility
+
+   # quotes = pd.json_normalize(quotes)
+   # quotes = quotes[['symbol','askPrice','lastPrice','openPrice','lowPrice','volatility','totalVolume']]
+    return (quotes)
+    print(quotes)
