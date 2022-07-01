@@ -1,0 +1,59 @@
+
+"""
+Created on Thu Jun 23 12:49:51 2022
+
+@author: tomson
+"""
+from openpyxl import Workbook
+import requests
+import threading
+import pandas as pd
+import time
+    
+from TD_credentials import refresh_token, APIKEY, URI, ACCOUNT_NUMBER
+
+#MODULO DE ORDENES BUSCAR ESPECIFICAMENTE POR TIPO DE ORDEN AL MOMENTO
+
+#Obtener ordenes por cuenta
+     
+def get_orders_bypath():
+    headers = { 'Authorization' : 'Bearer '+access_token}
+    data = { 'maxResults': "100"
+            }
+    listorders = requests.get('https://api.tdameritrade.com/v1/accounts/'+ACCOUNT_NUMBER+'/orders',
+                              headers=headers, params=data).json()
+    return pd.json_normalize(listorders)
+    print(listorders)
+
+
+#Obtener todas las ordenes
+
+def get_orders_all():
+    headers = { 'Authorization' : 'Bearer '+access_token}
+    data = { 'maxResults': "100"
+            }
+    allorders = requests.get('https://api.tdameritrade.com/v1/orders',
+                              headers=headers, params=data).json()
+    for msg in allorders:
+       # print(msg['orderLegCollection'])
+    
+       # print(msg['orderType'],msg['quantity'],msg['price'],msg['orderLegCollection'])
+       orders=allorders
+    return (orders)
+    
+    
+def cancel_order():
+     headers = { 'Authorization' : 'Bearer '+access_token}
+     cancelorder = requests.delete('https://api.tdameritrade.com/v1/accounts/{accountId}/orders/{orderId}',
+                            #   headers=headers, params=data).json()
+
+#Colocar ordenes & Reemplazar (Ver tipo de orden en particular segun necesidad)
+def put_order():
+     headers = { 'Authorization' : 'Bearer '+access_token}
+     putorders = requests.post('https://api.tdameritrade.com/v1/accounts/{accountId}/orders',
+                               headers=headers, params=data).json()
+    
+def replace_order():
+    headers = { 'Authorization' : 'Bearer '+access_token}
+    reporders = requests.put('https://api.tdameritrade.com/v1/accounts/{accountId}/orders/{orderId}',
+                               headers=headers, params=data).json(
