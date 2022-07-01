@@ -1,0 +1,70 @@
+#MODULO WATCHLIST
+
+def create_watchlist():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {{
+    "name": "string",
+    "watchlistItems": [
+        {
+            "quantity": 0,
+            "averagePrice": 0,
+            "commission": 0,
+            "purchasedDate": "DateParam\"", # Use YYYY-MM-DD
+            "instrument": {
+                "symbol": "string",
+                "assetType": "'EQUITY' or 'OPTION' or 'MUTUAL_FUND' or 'FIXED_INCOME' or 'INDEX'"
+            }
+        }
+    ]
+}}
+                                        
+                        
+    newwatchlist = requests.post("https://api.tdameritrade.com/v1/accounts/+ACCOUNTNUMBER+/watchlists",
+                          headers=headers, params=data).json()
+    return (newwatchlist)
+    print(newwatchlist)
+    
+def delete_watchlist():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    dwatch = requests.delete("https://api.tdameritrade.com/v1/accounts/+ACCOUNTNUMBER+/watchlists/{watchlistId}",
+                      headers=headers).json()
+    return (dwatch)
+    print(dwatch)
+    
+def all_watchlists():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    allwatch = requests.get("https://api.tdameritrade.com/v1/accounts/watchlists",
+                      headers=headers).json()
+    return (allwatch)
+    print(allwatch)
+    
+
+def update_watchlist():
+    
+    
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data = {
+    "name": "string",
+    "watchlistId": "string",
+    "watchlistItems": [
+        {
+            "quantity": 0,
+            "averagePrice": 0,
+            "commission": 0,
+            "purchasedDate": "DateParam\"",
+            "instrument": {
+                "symbol": "string",
+                "assetType": "'EQUITY' or 'OPTION' or 'MUTUAL_FUND' or 'FIXED_INCOME' or 'INDEX'"
+            },
+            "sequenceId": 0
+        }
+    ]
+}
+    upwatch = requests.get("https://api.tdameritrade.com/v1/accounts/{accountId}/watchlists/{watchlistId}",
+                      headers=headers, params = data).json()
+    return (upwatch)
+    print(upwatch)
