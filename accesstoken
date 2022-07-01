@@ -1,0 +1,35 @@
+from openpyxl import Workbook
+import requests
+import threading
+import pandas as pd
+import time
+    
+from TD_credentials import refresh_token, APIKEY, URI, ACCOUNT_NUMBER
+
+
+
+#MODULE GET ACCESS TOKEN 
+#THIS PARAMS CAN BE USED IF YOU ALREADY HAVE A REFRESH TOKEN
+
+def get_access_token():
+        #Post Access Token Request
+        headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+        data = { 'grant_type': 'refresh_token',
+                'refresh_token': refresh_token,
+                'client_id': APIKEY,
+                'redirect_uri': URI}
+        authReply = requests.post('https://api.tdameritrade.com/v1/oauth2/token',
+                                  headers=headers, data=data).json()
+        
+        return authReply['access_token']
+ 
+# Task to execute past a certainly time
+def timer():
+    while True:
+        print(get_access_token())
+        time.sleep(72000)   # 72000 segundos.
+# Iniciar la ejecución en segundo plano.
+t = threading.Thread(target=timer)
+t.start()
+#THE TIMER IS TO REFRESH THE BOKEN BEFORE HE EXPIRES
+access_token=(get_access_token())
