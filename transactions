@@ -1,0 +1,19 @@
+#MODULO TRANSACTION HISTORY
+
+def transactions():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'type' : "all",
+           'symbol' : "SPCE"}
+                                        
+                        
+    transact = requests.get("https://api.tdameritrade.com/v1/accounts/"+ACCOUNT_NUMBER+"/transactions",
+                          headers=headers, params=data).json()
+    transact = pd.json_normalize(data = transact)
+  #  transact = transact[['type']]
+
+    #transact = pd.json_normalize(transact)
+    #transact = transact[['type','orderId','netAmount','transactionDate']]
+    
+    return (transact)
+
