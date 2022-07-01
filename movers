@@ -13,3 +13,16 @@ def get_up_movers():
     upmovers = upmovers.drop('description', axis=1)
     return (upmovers)
     print(upmovers)
+
+
+def get_down_movers():
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization' : 'Bearer '+access_token}
+    data= {'apikey' : APIKEY,
+           'direction' : 'down',
+            'change' : 'percent'}
+    downmovers = requests.get("https://api.tdameritrade.com/v1/marketdata/$SPX.X/movers",
+                          headers=headers, params=data).json()
+    downmovers = pd.json_normalize(downmovers)
+    downmovers = downmovers.drop('description', axis = 1)
+    return (downmovers)
